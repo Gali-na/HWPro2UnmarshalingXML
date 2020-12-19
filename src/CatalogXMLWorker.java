@@ -1,11 +1,11 @@
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import org.w3c.dom.*;
+import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
+import java.io.IOException;
 
 public class CatalogXMLWorker {
     public static AllDependencies loadCatalogFromXMLFile(File file) {
@@ -26,8 +26,12 @@ public class CatalogXMLWorker {
                     }
                 }
             }
-        } catch (Exception e) {
-            return null;
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
+            e.printStackTrace();
         }
         return catalog;
     }
@@ -43,7 +47,8 @@ public class CatalogXMLWorker {
         String scope = null;
         try {
             scope = dependency.getElementsByTagName("scope").item(0).getTextContent();
-        } catch (Exception e) {
+        } catch (DOMException e) {
+            e.printStackTrace();
         }
 
         Dependency dependencyCurrent = new Dependency();
